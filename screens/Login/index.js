@@ -1,38 +1,36 @@
-import React, { Component } from 'react';
+import React from 'react';
+
 import {
-    Text,
-    TextInput,
+    AsyncStorage,
+    Button,
+    StyleSheet,
     View,
-    Button
 } from 'react-native';
 
-export default class Login extends Component {
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
 
-    state = {
-        email: '',
-        password: ''
-    };
-
+export default class SignInScreen extends React.Component {
     static navigationOptions = {
-        title: 'Login',
+        title: 'Please sign in',
     };
 
     render() {
-
-        const { navigate } = this.props.navigation;
-
         return (
-            <View style={{padding: 20}}>
-                <Text style={{ fontSize: 27 }}>
-                    Login
-                </Text>
-                <TextInput placeholder={'Email'}/>
-                <TextInput placeholder={'Password'}/>
-                <View style={{margin:7}} />
-                <Button title={'Submit'} onPress={() => navigate('Content')}/>
+            <View style={styles.container}>
+                <Button title="Login!" onPress={this._signInAsync} />
+                <Button title="Registration!" onPress={ () => this.props.navigation.navigate('Registration')} />
             </View>
-        )
+        );
     }
 
+    _signInAsync = async () => {
+        await AsyncStorage.setItem('userToken', 'abc');
+        this.props.navigation.navigate('App');
+    };
 }
-
